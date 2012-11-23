@@ -51,7 +51,6 @@ func config() {
 		version()
 	}
 
-	fmt.Printf("flag.args: %+v\n", flag.Args())
 	if flag.NArg() > 0 {
 		srv_wd = flag.Arg(0)
 	}
