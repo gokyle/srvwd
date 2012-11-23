@@ -14,33 +14,22 @@ import (
 
 const VERSION = "2.0.0"
 
-var (
-	srv_addr   string
-	srv_bin    string
-	srv_chroot bool
-	srv_port   int
-	srv_usr    int
-	srv_ver    bool
-	srv_wd     = "."
-)
-
-func init() {
-	srv_bin = filepath.Base(os.Args[0])
-	config()
-}
+var srv_bin string
 
 func main() {
-	srv_addr := fmt.Sprintf(":%d", srv_port)
-	fmt.Printf("serving %s on %s\n", srv_wd, srv_addr)
-	http.Handle("/", http.FileServer(http.Dir(srv_wd)))
-	log.Fatal(http.ListenAndServe(srv_addr, nil))
-}
+	var (
+		srv_port   int
+		srv_ssl    bool
+		srv_wd = "."
+	)
 
-func config() {
+	srv_bin = filepath.Base(os.Args[0])
 	empty := func(s string) bool {
 		return len(s) == 0
 	}
 
+	fCert := flag.String("c", "", "TLS certificate file")
+	fKey := flag.String("k", "", "TLS key file")
 	fPort := flag.Int("p", 8080, "port to listen on")
 	fChroot := flag.Bool("r", false, "chroot to the working directory")
 	fUser := flag.String("u", "", "user to run as")
@@ -55,20 +44,32 @@ func config() {
 		srv_wd = flag.Arg(0)
 	}
 
+	if *fChroot {
+		srv_wd = chroot(srv_wd)
+	}
+
 	if !empty(*fUser) {
 		setuid(*fUser)
 	}
 
-	if *fChroot {
-		chroot(srv_wd)
+	if !empty(*fCert) && !empty(*fKey) {
+		srv_ssl = true
 	}
 
 	srv_port = *fPort
+	srv_addr := fmt.Sprintf(":%d", srv_port)
+	fmt.Printf("serving %s on %s\n", srv_wd, srv_addr)
+	http.Handle("/", http.FileServer(http.Dir(srv_wd)))
+	if srv_ssl {
+		log.Fatal(http.ListenAndServeTLS(srv_addr, *fCert, *fKey, nil))
+	} else {
+		log.Fatal(http.ListenAndServe(srv_addr, nil))
+	}
 }
 
 func fatal(err error) {
 	fmt.Printf("[!] %s: %s\n", srv_bin, err.Error())
-        os.Exit(1)
+	os.Exit(1)
 }
 
 func checkFatal(err error) {
@@ -86,10 +87,10 @@ func setuid(username string) {
 	checkFatal(err)
 }
 
-func chroot(path string) {
+func chroot(path string) string {
 	err := syscall.Chroot(path)
 	checkFatal(err)
-	srv_wd = "/"
+	return "/"
 }
 
 func version() {
