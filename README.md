@@ -11,7 +11,7 @@ None.
 Compatibility
 -------------
 srvwd has been tested on the following operating systems:
-    * OS X (10.8)
+* OS X (10.8)
 
 
 Installation
@@ -21,16 +21,16 @@ Installation
 
 Usage
 -----
-srvwd [-l listeners] [-p port] [-r] [-u user] [-v] dir
+`srvwd [-l listeners] [-p port] [-r] [-u user] [-v] dir`
 
--r will cause srvwd to chroot to the current working directory for security.
+`-r` will cause srvwd to chroot to the current working directory for security.
 
-Use ^C halt srvwd.
+Use `^C` to halt srvwd.
 
 
 Why require sudo for chroot?
 ----------------------------
-From chroot(2):
+From [chroot(2)](http://www.openbsd.org/cgi-bin/man.cgi?query=chroot&apropos=0&sektion=2&manpath=OpenBSD+Current&arch=i386&format=ascii):
 
      This call is restricted to the super-user.
 
