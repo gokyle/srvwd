@@ -18,10 +18,10 @@ var (
 	srv_addr   string
 	srv_bin    string
 	srv_chroot bool
-	srv_wd     string
 	srv_port   int
 	srv_usr    int
 	srv_ver    bool
+	srv_wd     = "."
 )
 
 func init() {
@@ -68,6 +68,7 @@ func config() {
 
 func fatal(err error) {
 	fmt.Printf("[!] %s: %s\n", srv_bin, err.Error())
+        os.Exit(1)
 }
 
 func checkFatal(err error) {
