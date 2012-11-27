@@ -5,12 +5,13 @@ srvwd is a web server that serves the current working directory.
 
 Dependencies
 ------------
-None.
+None. `srvwd` uses only components in the Go standard library.
 
 
 Compatibility
 -------------
 srvwd has been tested on the following operating systems:
+* OpenBSD (5.2)
 * OS X (10.8)
 
 
@@ -21,9 +22,12 @@ Installation
 
 Usage
 -----
-`srvwd [-l listeners] [-p port] [-r] [-u user] [-v] dir`
+`srvwd [-c cert] [-k key] [-l listeners] [-p port] [-r] [-u user] [-v] dir`
 
 `-r` will cause srvwd to chroot to the current working directory for security.
+
+If a certificate and keyfile are specified, `srvwd` will run in TLS
+mode.
 
 Use `^C` to halt srvwd.
 
@@ -34,7 +38,7 @@ From [chroot(2)](http://www.openbsd.org/cgi-bin/man.cgi?query=chroot&apropos=0&s
 
      This call is restricted to the super-user.
 
-srvwd uses root privileges to chroot to the target directory, then immediately
+`srvwd` uses root privileges to chroot to the target directory, then immediately
 drops privileges.
 
 

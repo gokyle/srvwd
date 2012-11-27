@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+        "runtime"
 	"strconv"
 	"syscall"
 )
@@ -27,7 +28,7 @@ func main() {
 	empty := func(s string) bool {
 		return len(s) == 0
 	}
-
+        runtime.GOMAXPROCS(4)
 	fCert := flag.String("c", "", "TLS certificate file")
 	fKey := flag.String("k", "", "TLS key file")
 	fPort := flag.Int("p", 8080, "port to listen on")
