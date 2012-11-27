@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>srvwd by gokyle</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>srvwd</h1>
+        <p>serve working directory</p>
+
+        <p class="view"><a href="https://github.com/gokyle/srvwd">View the Project on GitHub <small>gokyle/srvwd</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/gokyle/srvwd/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/gokyle/srvwd/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/gokyle/srvwd">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><code>srvwd</code> is a web server that serves the current working directory.</p>
+
+<h2>Dependencies</h2>
+
+<p>None. <code>srvwd</code> uses only components in the Go standard library.</p>
+
+<h2>Compatibility</h2>
+
+<p>srvwd has been tested on the following operating systems:</p>
+
+<ul>
+<li>OpenBSD (5.2)</li>
+<li>OS X (10.8)</li>
+</ul><h2>Installation</h2>
+
+<p><code>go install</code> will install the binary to the <code>${GOROOT}/bin</code> directory.</p>
+
+<h2>Usage</h2>
+
+<p><code>srvwd [-c cert] [-k key] [-l listeners] [-p port] [-r] [-u user] [-v] dir</code></p>
+
+<p><code>-r</code> will cause srvwd to chroot to the current working directory for security.</p>
+
+<p>If a certificate and keyfile are specified, <code>srvwd</code> will run in TLS
+mode.</p>
+
+<p>Use <code>^C</code> to halt srvwd.</p>
+
+<h2>Why require sudo for chroot?</h2>
+
+<p>From <a href="http://www.openbsd.org/cgi-bin/man.cgi?query=chroot&amp;apropos=0&amp;sektion=2&amp;manpath=OpenBSD+Current&amp;arch=i386&amp;format=ascii">chroot(2)</a>:</p>
+
+<pre><code> This call is restricted to the super-user.
+</code></pre>
+
+<p><code>srvwd</code> uses root privileges to chroot to the target directory, then immediately
+drops privileges.</p>
+
+<h2>Known bugs / caveats</h2>
+
+<p>setgrp isn't implemented here, as no good solution exists in Go.</p>
+
+<h2>History</h2>
+
+<p>The <a href="http://www.golang.org">Go</a> version is descended from the original C
+version.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/gokyle">gokyle</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
